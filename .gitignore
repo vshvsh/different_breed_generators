@@ -161,4 +161,4 @@ cython_debug/
 
 #downloaded data
 *.xlsx
-*memory
+*shared
