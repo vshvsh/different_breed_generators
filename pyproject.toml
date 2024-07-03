@@ -6,7 +6,7 @@ authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.10.0,<3.12"
-streamlit = "^1.27.2"
+streamlit = "^1.36"
 requests = "^2.32.3"
 pandas = "^2.2.2"
 openpyxl = "^3.0.7"
