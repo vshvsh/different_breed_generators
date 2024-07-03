@@ -43,7 +43,7 @@ if (chassis):
 for stype in vehicle_slot_costs_dict:
   inp = st.number_input("Add/refund " + stype + " slots",
                         value=0,
-                        min_value=-10,
+                        min_value=-vehicle_design[stype + ' Slots'],
                         max_value=100)
   if inp > 0:
     vehicle_design[stype + ' Slots'] += inp
