@@ -16,12 +16,12 @@ squad_types, detachments_with_squads_dicts, warhost_detachments, detachments_tot
 
 with st.expander("Army datasheets") as ex_army_datasheets:
   st.write("Total detachments:")
-  st.dataframe(detachments_total)
+  st.table(detachments_total)
   st.write("Detachments by warhost:")
   warhost_detachments = pd.DataFrame(warhost_detachments)
-  st.dataframe(warhost_detachments)
+  st.table(warhost_detachments)
   st.write("Squads by warhost and total:")
-  st.dataframe(squads_total)
+  st.table(squads_total)
 
 #make squad refit - select squad type
 squad_type = st.selectbox("Select squad type", squad_types.keys())
@@ -112,7 +112,38 @@ for i in range(0, wg_num):
   squad_refit_cost['EP'] += this_wg_costs
   squad_refit_text += f'    Add {wg_qt} {wg_type} for {this_wg_costs} EP\n'
 
-#select who to make this refit for: for (all/multiselect) detachments in (all/multiselect) warhosts
 #calculate new equipment costs by position and total
 squad_refit_text += f'Total {squad_refit_cost["EP"]} EP, {squad_refit_cost["Starcrystals"]} Starcrystals, {squad_refit_cost["Psy-Scopes"]} Psy-Scopes per squad\n'
+st.code(squad_refit_text)
+
+st.write('Count number of squads per detachment and warhost')
+
+unique_detachments = squads_dataset[squads_dataset['Squad Type'] ==
+                                    squad_type]['Detachment Type'].unique()
+
+selected_detachments = st.multiselect(
+    "Select what detachments to count",
+    unique_detachments,
+    default=unique_detachments,
+)
+
+unique_warhosts = squads_dataset[squads_dataset['Squad Type'] ==
+                                 squad_type]['Warhost Name'].unique()
+
+selcted_warhosts = st.multiselect(
+    "Select what warhosts to count",
+    unique_warhosts,
+    default=unique_warhosts,
+)
+
+squads_refit_total = squads_dataset[
+    (squads_dataset['Squad Type'] == squad_type)
+    & (squads_dataset['Detachment Type'].isin(selected_detachments)) &
+    (squads_dataset['Warhost Name'].isin(selcted_warhosts))]['Total'].sum()
+st.write(f'Total squads selected: {squads_refit_total}')
+
+to_refit = st.number_input("Refit X squads", value=squads_refit_total)
+
+#calculate new equipment costs by position and total
+squad_refit_text += f'Total cost to refit across {to_refit} squads: {squad_refit_cost["EP"]*to_refit} EP, {squad_refit_cost["Starcrystals"]*to_refit} Starcrystals, {squad_refit_cost["Psy-Scopes"]*to_refit} Psy-Scopes per squad\n'
 st.code(squad_refit_text)
