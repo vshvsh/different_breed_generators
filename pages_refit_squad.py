@@ -22,8 +22,10 @@ with st.expander("Army datasheets") as ex_army_datasheets:
     st.write("Squads by warhost and total:")
     st.table(squads_total)
 
+
 #make squad refit - select squad type
 squad_type = st.selectbox("Select squad type", squad_types.keys())
+
 
 st.write(f'Squad type is {squad_types[squad_type]["Type"]}')
 
