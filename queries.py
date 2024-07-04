@@ -150,7 +150,7 @@ def prepare_squads_refit_data(_conn):
     ON 
         ds."Detachment Type" = wd."Detachment Type"
     JOIN 
-        squads s
+        Squads s
     ON 
         ds."Squad Type" = s."Squad Type"
     LEFT JOIN 
@@ -195,7 +195,7 @@ def prepare_squads_refit_data(_conn):
     ON 
         ds."Detachment Type" = wd."Detachment Type"
     JOIN 
-        squads s
+        Squads s
     ON 
         ds."Squad Type" = s."Squad Type"
     GROUP BY ds."Squad Type",ds."Detachment Type", wd."Warhost Name"
