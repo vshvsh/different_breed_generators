@@ -52,10 +52,13 @@ selected_squads = st.multiselect(
     default=unique_squads,
 )
 
+
+
 selected_squad_data = squads_dataset[
     (squads_dataset['Warhost Name'].isin(selcted_warhosts))
     & (squads_dataset['Detachment Type'].isin(selected_detachments))
     & (squads_dataset['Squad Type'].isin(selected_squads))]
+
 
 selected_squad_data = selected_squad_data.groupby(
     'Squad Type')['Total'].sum().reset_index()
@@ -211,7 +214,7 @@ for squad_type in selected_squad_data['Squad Type'].unique():
     refit_squad(squad_type)
     squads_to_refit = selected_squad_data[selected_squad_data['Squad Type'] ==
                                           squad_type]['Total']
-    squads_to_refit = int(squads_to_refit)
+    squads_to_refit = int(squads_to_refit.iloc[0])
 
     total_squad_refit_costs = {
         key: squads_to_refit * squad_refits[squad_type][key]
