@@ -7,10 +7,9 @@ from init_data import connect_to_db
 from queries import prepare_data
 
 db_uri = connect_to_db()
-conn = sqlite3.connect(db_uri)
 
 vehicle_chassis_dict, ground_weapons_grouped, vehicle_slot_costs_dict, vehicle_slots_conversion, vehicle_wargear_dict = prepare_data(
-    conn)
+db_uri)
 
 st.title("Create vehicle")
 

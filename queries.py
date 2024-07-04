@@ -1,9 +1,11 @@
 import streamlit as st
 import pandas as pd
+import sqlite3
 
 
 @st.cache_data  # 👈 Add the caching decorator
-def prepare_data(_conn):
+def prepare_data(connect_string):
+    _conn = sqlite3.connect(connect_string)
     query = """
   SELECT *
   FROM "VehicleChassis"
@@ -52,8 +54,9 @@ def prepare_data(_conn):
 
 
 @st.cache_data  # 👈 Add the caching decorator
-def prepare_squads_refit_data(_conn):
-    query = 'SELECT * FROM squads'
+def prepare_squads_refit_data(connect_string):
+    _conn = sqlite3.connect(connect_string)
+    query = 'SELECT * FROM Squads'
     df = pd.read_sql(query, _conn)
     squad_types = df.set_index('Squad Type').to_dict(orient='index')
 
