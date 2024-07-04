@@ -10,7 +10,7 @@ st.title("Refit squad")
 
 db_uri = connect_to_db()
 
-squad_types, detachments_with_squads_dicts, warhost_detachments, detachments_total, squads_total, squads_dataset, infantry_armor, infantry_wargear, infantry_weapons = prepare_squads_refit_data(
+squad_types, detachments_with_squads_dicts, warhost_detachments, detachments_total, squads_total, squads_dataset, infantry_armor, infantry_wargear, infantry_weapons, vehicles = prepare_squads_refit_data(
     db_uri)
 
 with st.expander("Army datasheets") as ex_army_datasheets:
@@ -91,6 +91,8 @@ for i in range(0, weapon_num):
     this_weapon_psy_scopes = infantry_weapons[weapon_type][
         'Psy-Scopes'] * weapon_qt
     squad_refit_cost['EP'] += this_weapon_costs
+    squad_refit_cost['Starcrystals'] += this_weapon_starcrystals
+    squad_refit_cost['Psy-Scopes'] += this_weapon_psy_scopes
     squad_refit_text += f'    Add {weapon_qt} {weapon_type} for {this_weapon_costs} EP, {this_weapon_starcrystals} Starcrystals, {this_weapon_psy_scopes} Psy-Scopes\n'
 
 #add new armor - how many types, what types, how many
@@ -110,6 +112,23 @@ for i in range(0, wg_num):
     this_wg_costs = infantry_wargear[wg_type]['EP'] * wg_qt
     squad_refit_cost['EP'] += this_wg_costs
     squad_refit_text += f'    Add {wg_qt} {wg_type} for {this_wg_costs} EP\n'
+
+#add new armor - how many types, what types, how many
+v_num = st.number_input("Add new vehicles", value=0, min_value=0, max_value=10)
+
+for i in range(0, v_num):
+    v_type = st.selectbox("Select vehicle types", vehicles, key="v" + str(i))
+    v_qt = st.number_input(f"Amount",
+                           min_value=0,
+                           max_value=12,
+                           key="vqt" + str(i))
+    this_v_costs = vehicles[v_type]['EP'] * v_qt
+    this_v_starcrystals = vehicles[v_type]['Starcrystals'] * v_qt
+    this_v_psy_scopes = vehicles[v_type]['Psy-Scopes'] * v_qt
+    squad_refit_cost['EP'] += this_v_costs
+    squad_refit_cost['Starcrystals'] += this_v_starcrystals
+    squad_refit_cost['Psy-Scopes'] += this_v_psy_scopes
+    squad_refit_text += f'    Add {v_qt} {v_type} for {this_v_costs} EP, {this_v_starcrystals} Starcrystals, {this_v_psy_scopes} Psy-Scopes\n'
 
 #calculate new equipment costs by position and total
 squad_refit_text += f'Total {squad_refit_cost["EP"]} EP, {squad_refit_cost["Starcrystals"]} Starcrystals, {squad_refit_cost["Psy-Scopes"]} Psy-Scopes per squad\n'

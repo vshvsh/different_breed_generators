@@ -225,4 +225,11 @@ def prepare_squads_refit_data(connect_string):
     infantry_weapons_df = pd.read_sql(query, _conn)
     infantry_weapons = infantry_weapons_df.set_index('Name').to_dict('index')
 
-    return squad_types, detachments_dict, warhost_detachments, detachments_total, squads_totals, squads_dataset, infantry_armor, infantry_wargear, infantry_weapons
+    query = """
+    SELECT *
+    FROM "Vehicles"
+    """
+    vehicles_df = pd.read_sql(query, _conn)
+    vehicles = vehicles_df.set_index('Name').to_dict('index')
+
+    return squad_types, detachments_dict, warhost_detachments, detachments_total, squads_totals, squads_dataset, infantry_armor, infantry_wargear, infantry_weapons, vehicles
