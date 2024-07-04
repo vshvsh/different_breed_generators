@@ -3,14 +3,8 @@ import pandas as pd
 import sqlite3
 from collections import Counter
 
-from init_data import make_db_uri
+from init_data import connect_to_db
 from queries import prepare_data
-
-
-@st.cache_data  # 👈 Add the caching decorator
-def connect_to_db():
-  return make_db_uri()
-
 
 db_uri = connect_to_db()
 conn = sqlite3.connect(db_uri)
@@ -59,7 +53,7 @@ for stype in vehicle_slot_costs_dict:
         inp) + " " + stype + " slots for " + str(abs(ss_cost)) + " SS\n"
 
 #slot conversion
-for stype in vehicle_slot_costs_dict:
+for stype in reversed(vehicle_slot_costs_dict.keys()):
   if vehicle_design[stype + ' Slots'] > 0 and stype != 'Ranged Weapon':
     inp = st.number_input("Downgrade " + stype + " slots",
                           value=0,

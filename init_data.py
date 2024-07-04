@@ -1,6 +1,12 @@
 import pandas as pd
 import requests
 import sqlite3
+import streamlit as st
+
+
+@st.cache_data  # 👈 Add the caching decorator
+def connect_to_db():
+    return make_db_uri()
 
 
 # export function to create a mysql in memory db and fill it with data
@@ -19,7 +25,7 @@ def make_db_uri():
     excel_file = 'downloaded_file.xlsx'
     sheets = pd.read_excel(excel_file, sheet_name=None)
 
-    db_uri = 'file::memory:?cache=shared'
+    db_uri = 'file:adbdb:?mode=memory&cache=shared'
     # Create an in-memory SQLite database and load all sheets as tables
     conn = sqlite3.connect(db_uri)
 

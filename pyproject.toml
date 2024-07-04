@@ -5,11 +5,13 @@ description = ""
 authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.10.0,<3.12"
+python = "^3.10"
 streamlit = "^1.36"
 requests = "^2.32.3"
 pandas = "^2.2.2"
 openpyxl = "^3.0.7"
+numpy = "^2.0.0"
+pyarrow = "^16"
 
 [tool.pyright]
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md
