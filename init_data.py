@@ -25,9 +25,9 @@ def make_db_uri():
     excel_file = 'downloaded_file.xlsx'
     sheets = pd.read_excel(excel_file, sheet_name=None)
 
-    db_uri = 'file:adbdb:?mode=memory&cache=shared'
+    db_uri = 'datasheets.sqlite'
     # Create an in-memory SQLite database and load all sheets as tables
-    conn = sqlite3.connect(db_uri)
+    conn = sqlite3.connect(db_uri, uri=True)
 
     for sheet_name, df in sheets.items():
         df.to_sql(sheet_name, conn, index=False, if_exists='replace')

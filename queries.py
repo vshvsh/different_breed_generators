@@ -5,7 +5,7 @@ import sqlite3
 
 @st.cache_data  # 👈 Add the caching decorator
 def prepare_data(connect_string):
-    _conn = sqlite3.connect(connect_string)
+    _conn = sqlite3.connect(connect_string, uri=True)
     query = """
   SELECT *
   FROM "VehicleChassis"
@@ -55,7 +55,7 @@ def prepare_data(connect_string):
 
 @st.cache_data  # 👈 Add the caching decorator
 def prepare_squads_refit_data(connect_string):
-    _conn = sqlite3.connect(connect_string)
+    _conn = sqlite3.connect(connect_string, uri=True)
     query = 'SELECT * FROM Squads'
     df = pd.read_sql(query, _conn)
     squad_types = df.set_index('Squad Type').to_dict(orient='index')
